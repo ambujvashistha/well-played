@@ -21,11 +21,12 @@ const BLOCK_HEIGHT = 40;
 
 export default function App() {
   const [playerX, setPlayerX] = useState((screenWidth - PLAYER_WIDTH) / 2);
-  const [subscription, setSubscription] = useState(null);
+  // const [subscription, setSubscription] = useState(null);
   const [bullet, setBullet] = useState([]);
   const [{ x, y, z }, setData] = useState({ x: 0, y: 0, z: 0 });
 
   const handelBullet = () => {
+    // console.log("pop");
     const bullet = {
       id: Date.now(),
       x: playerX + (PLAYER_WIDTH - BULLET_WIDTH) / 2,
@@ -49,14 +50,29 @@ export default function App() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setBullet((prev) => prev.map((b) => ({ ...b, y: b.y - 20 })));
+      setBullet((prev) => prev.map((b) => ({ ...b, y: b.y + 20 })));
     }, 100);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <TouchableWithoutFeedback onPress={handelBullet}>
       <View style={styles.container}>
         <View style={[styles.player, { left: playerX }]} />
+        {bullet.map((b) => (
+          <View
+            key={b.id}
+            style={[
+              styles.bullet,
+              {
+                left: b.x,
+                bottom: b.y,
+              },
+            ]}
+          />
+        ))}
+
         <Text style={styles.instruction}>Tilt your phone to move</Text>
       </View>
     </TouchableWithoutFeedback>
