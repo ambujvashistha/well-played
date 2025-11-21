@@ -4,14 +4,15 @@ import {
   View,
   StyleSheet,
   Dimensions,
+  Image,
   Text,
   TouchableWithoutFeedback,
 } from "react-native";
 import { Accelerometer } from "expo-sensors";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
-const PLAYER_WIDTH = 50;
-const PLAYER_HEIGHT = 50;
+const PLAYER_WIDTH = 120;
+const PLAYER_HEIGHT = 80;
 
 const BULLET_WIDTH = 10;
 const BULLET_HEIGHT = 20;
@@ -51,7 +52,7 @@ export default function App() {
   useEffect(() => {
     const interval = setInterval(() => {
       setBullet((prev) => prev.map((b) => ({ ...b, y: b.y + 20 })));
-    }, 100);
+    }, 16);
 
     return () => clearInterval(interval);
   }, []);
@@ -59,7 +60,6 @@ export default function App() {
   return (
     <TouchableWithoutFeedback onPress={handelBullet}>
       <View style={styles.container}>
-        <View style={[styles.player, { left: playerX }]} />
         {bullet.map((b) => (
           <View
             key={b.id}
@@ -72,7 +72,14 @@ export default function App() {
             ]}
           />
         ))}
+        <Image
+          source={{
+            uri: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png",
+          }}
+          style={[styles.player, { left: playerX }]}
+        />
 
+        {/* <View style={[styles.player, { left: playerX }]} /> */}
         <Text style={styles.instruction}>Tilt your phone to move</Text>
       </View>
     </TouchableWithoutFeedback>
@@ -92,7 +99,6 @@ const styles = StyleSheet.create({
     bottom: 20,
     width: PLAYER_WIDTH,
     height: PLAYER_HEIGHT,
-    backgroundColor: "#FFF",
     borderWidth: 2,
     borderColor: "#000",
   },
