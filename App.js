@@ -33,23 +33,10 @@ export default function App() {
     };
     setBullet((prev) => [...prev, bullet]);
   };
-
-  // const _slow = () => Accelerometer.setUpdateInterval(1000);
-  // const _fast = () => Accelerometer.setUpdateInterval(100);
-
   useEffect(() => {
     Accelerometer.setUpdateInterval(25);
 
     const subscription = Accelerometer.addListener((data) => {
-      // console.log("Value of X :", x);
-      // const move = x * 30;
-      // // if ((move < screenWidth - PLAYER_WIDTH) & (move > 0 + PLAYER_WIDTH)) {
-      // //   setPlayerX((prev) => prev + move);
-      // // } else {
-      // //   setPlayerX((prev) => prev + 0);
-      // // }
-      // const allowed = Math.max(0, Math.min(screenWidth - PLAYER_WIDTH, move));
-      // setPlayerX(allowed);
       setData(data);
       setPlayerX((prev) => {
         const move = prev - data.x * 50;
